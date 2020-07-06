@@ -6,6 +6,10 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const TerserWebpackPlugin = require("terser-webpack-plugin");
 
+const FOLDER_NAME = "task1";
+
+const PORT = process.env.PROT || process.env.PROT + 1;
+
 const isDev = process.env.NODE_ENV === "development";
 const isProd = !isDev;
 
@@ -37,12 +41,13 @@ module.exports = {
   context: path.resolve(__dirname, "src"),
   mode: "development",
   entry: {
-    main: ["@babel/polyfill", "./main.js"]
+    main: ["@babel/polyfill", "./study/" + FOLDER_NAME + "/index.js"]
   },
   optimization: optimization(),
+
   devServer: {
-    port: 3000,
-    hot: isDev
+    port: PORT
+    /* hot: isDev */
   },
   resolve: {
     extensions: [".js", ".json", ".png"]
@@ -54,7 +59,7 @@ module.exports = {
   plugins: [
     new HTMLWebpackPlugin({
       title: "Webpack App",
-      template: "./index.html",
+      template: "./study/" + FOLDER_NAME + "/index.html",
       minify: {
         collapseWhitespace: !isProd
       }
@@ -97,9 +102,9 @@ module.exports = {
         loader: {
           loader: "babel-loader",
           options: {
-            presets: ["@babel/preset-env"]
-          },
-          plugins: ["@babel/plugin-proposal-class-properties"]
+            presets: ["@babel/preset-env"],
+            plugins: ["@babel/plugin-proposal-class-properties"]
+          }
         }
       }
     ]
