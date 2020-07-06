@@ -9,6 +9,22 @@ const TerserWebpackPlugin = require("terser-webpack-plugin");
 const isDev = process.env.NODE_ENV === "development";
 const isProd = !isDev;
 
+const cssLoaders = extra => {
+  const loaders = [
+    {
+      loader: MiniCssExtractPlugin.loader,
+      options: {
+        htmr: isDev,
+        reloadAll: true
+      }
+    },
+    "css-loader"
+  ];
+  if (extra) loaders.push(extra);
+
+  return loaders;
+};
+
 const optimization = () => {
   const config = {};
   if (isProd) {
@@ -21,7 +37,7 @@ module.exports = {
   context: path.resolve(__dirname, "src"),
   mode: "development",
   entry: {
-    main: "./main.js"
+    main: ["@babel/polyfill", "./main.js"]
   },
   optimization: optimization(),
   devServer: {
@@ -49,10 +65,6 @@ module.exports = {
         {
           from: path.resolve(__dirname, "src/assets"),
           to: path.resolve(__dirname, "build/assets")
-        },
-        {
-          from: path.resolve(__dirname, "src/favicon.ico"),
-          to: path.resolve(__dirname, "build")
         }
       ]
     }),
@@ -64,30 +76,11 @@ module.exports = {
     rules: [
       {
         test: /\.css$/,
-        use: [
-          {
-            loader: MiniCssExtractPlugin.loader,
-            options: {
-              htmr: isDev,
-              reloadAll: true
-            }
-          },
-          "css-loader"
-        ]
+        use: cssLoaders()
       },
       {
         test: /\.(s[ac]ss)$/,
-        use: [
-          {
-            loader: MiniCssExtractPlugin.loader,
-            options: {
-              htmr: isDev,
-              reloadAll: true
-            }
-          },
-          "css-loader",
-          "sass-loader"
-        ]
+        use: cssLoaders("sass-loader")
       },
 
       {
@@ -97,6 +90,17 @@ module.exports = {
       {
         test: /\.(ttf|woff|woff2|eot)$/,
         use: ["file-loader"]
+      },
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: {
+          loader: "babel-loader",
+          options: {
+            presets: ["@babel/preset-env"]
+          },
+          plugins: ["@babel/plugin-proposal-class-properties"]
+        }
       }
     ]
   }
