@@ -1,1 +1,1 @@
-console.log("IS WORKING");
+import "./index.sass";
