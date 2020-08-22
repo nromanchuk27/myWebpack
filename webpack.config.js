@@ -1,16 +1,16 @@
-const path = require("path");
-const HTMLWebpackPlugin = require("html-webpack-plugin");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const CopyWebpackPlugin = require("copy-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
-const TerserWebpackPlugin = require("terser-webpack-plugin");
+const path = require('path');
+const HTMLWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const TerserWebpackPlugin = require('terser-webpack-plugin');
 
-const FOLDER_NAME = "task1";
+const FOLDER_NAME = 'hooks';
 
 const PORT = process.env.PROT || process.env.PROT + 1;
 
-const isDev = process.env.NODE_ENV === "development";
+const isDev = process.env.NODE_ENV === 'development';
 const isProd = !isDev;
 
 const cssLoaders = extra => {
@@ -22,7 +22,7 @@ const cssLoaders = extra => {
         reloadAll: true
       }
     },
-    "css-loader"
+    'css-loader'
   ];
   if (extra) loaders.push(extra);
 
@@ -38,10 +38,10 @@ const optimization = () => {
 };
 
 module.exports = {
-  context: path.resolve(__dirname, "src"),
-  mode: "development",
+  context: path.resolve(__dirname, 'src'),
+  mode: 'development',
   entry: {
-    main: ["@babel/polyfill", "./study/" + FOLDER_NAME + "/index.js"]
+    main: ['@babel/polyfill', './study/' + FOLDER_NAME + '/index.js']
   },
   optimization: optimization(),
 
@@ -50,16 +50,16 @@ module.exports = {
     /* hot: isDev */
   },
   resolve: {
-    extensions: [".js", ".json", ".png"]
+    extensions: ['.js', '.json', '.png']
   },
   output: {
-    filename: "bundle.js",
-    path: path.resolve(__dirname, "build")
+    filename: 'bundle.js',
+    path: path.resolve(__dirname, 'build')
   },
   plugins: [
     new HTMLWebpackPlugin({
-      title: "Webpack App",
-      template: "./study/" + FOLDER_NAME + "/index.html",
+      title: 'Webpack App',
+      template: './study/' + FOLDER_NAME + '/index.html',
       minify: {
         collapseWhitespace: !isProd
       }
@@ -68,13 +68,13 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: path.resolve(__dirname, "src/assets"),
-          to: path.resolve(__dirname, "build/assets")
+          from: path.resolve(__dirname, 'src/assets'),
+          to: path.resolve(__dirname, 'build/assets')
         }
       ]
     }),
     new MiniCssExtractPlugin({
-      filename: "[name].css"
+      filename: '[name].css'
     })
   ],
   module: {
@@ -85,25 +85,25 @@ module.exports = {
       },
       {
         test: /\.(s[ac]ss)$/,
-        use: cssLoaders("sass-loader")
+        use: cssLoaders('sass-loader')
       },
 
       {
         test: /\.(png|jpeg|svg|gif)$/,
-        use: ["file-loader"]
+        use: ['file-loader']
       },
       {
         test: /\.(ttf|woff|woff2|eot)$/,
-        use: ["file-loader"]
+        use: ['file-loader']
       },
       {
         test: /\.js$/,
         exclude: /node_modules/,
         loader: {
-          loader: "babel-loader",
+          loader: 'babel-loader',
           options: {
-            presets: ["@babel/preset-env"],
-            plugins: ["@babel/plugin-proposal-class-properties"]
+            presets: ['@babel/preset-env'],
+            plugins: ['@babel/plugin-proposal-class-properties']
           }
         }
       }
