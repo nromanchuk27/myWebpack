@@ -8,7 +8,6 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const TerserWebpackPlugin = require("terser-webpack-plugin");
 
-console.log(argv);
 const FOLDER_NAME = argv.open;
 
 const PORT = process.env.PROT || process.env.PROT + 1;
@@ -53,7 +52,6 @@ module.exports = {
 
   devServer: {
     port: PORT
-    /* hot: isDev */
   },
   resolve: {
     extensions: [".js", ".json", ".png"]
