@@ -40,15 +40,14 @@ const optimization = () => {
   return config;
 };
 
-const pathToRootHTML = path.resolve(__dirname, "./src/study/" + FOLDER_NAME, "index.html");
-console.log(fs.existsSync(pathToRootHTML), "< EXIST");
+const pathToRootHTML = path.resolve(__dirname, "./src/components/" + FOLDER_NAME, "index.html");
 const htmlTemplate = fs.existsSync(pathToRootHTML) ? pathToRootHTML : path.resolve(__dirname, "./src", "index.html");
 
 module.exports = {
   context: path.resolve(__dirname, "src"),
   mode: "development",
   entry: {
-    main: ["@babel/polyfill", "./study/" + FOLDER_NAME + "/index.js"]
+    main: ["@babel/polyfill", "./components/" + FOLDER_NAME + "/index.js"]
   },
   optimization: optimization(),
 
